@@ -21,7 +21,7 @@ function Run-SysPrep {
     Write-Host "Run-SysPrep Called"
 
     $SysPrepPath = "$ENV:WINDIR\System32\Sysprep\sysprep.exe"
-    $SysPrepArgs = "/oobe /generalize /shutdown"   
+    $SysPrepArgs = "/oobe /generalize /shutdown /quiet"   
     Start-Process -FilePath $SysPrepPath -ArgumentList $SysPrepArgs
 
 }
