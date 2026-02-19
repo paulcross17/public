@@ -1,15 +1,23 @@
 
+function Clear-SysPrepLogs {
+    Write-Host "Clear-SysPrepLogs Called"
 
+    if ((Test-Path "$ENV:WINDIR\System32\SysPrep\Panther\setupact.log") -eq $true) {
+        Remove-Item -Path "$ENV:WINDIR\System32\SysPrep\Panther\setupact.log" -Force
+    }
+    if ((Test-Path "$ENV:WINDIR\System32\SysPrep\Panther\setuperr.log") -eq $true) {
+        Remove-Item -Path "$ENV:WINDIR\System32\SysPrep\Panther\setuperr.log" -Force
+    }
+}
 function Recursive-SysPrep-AppX-Tidy {
     Write-Host "Recursive-SysPrep-AppX-Tidy Called"
+
     Run-SysPrep
-    Write-Host "Sleep for 15 seconds to allow SysPrep to start and error if problem AppX packages are present" -ForegroundColor DarkYellow -NoNewline
+    Write-Host "Sleep for 15 seconds to allow SysPrep to start and error if problem AppX packages are present" -ForegroundColor DarkYellow
     Start-Sleep -Seconds 15
     Remove-AppXPackages
 }
-
 function Run-SysPrep {
-
     Write-Host "Run-SysPrep Called"
 
     $SysPrepPath = "$ENV:WINDIR\System32\Sysprep\sysprep.exe"
@@ -17,7 +25,6 @@ function Run-SysPrep {
     Start-Process -FilePath $SysPrepPath -ArgumentList $SysPrepArgs
 
 }
-
 function Remove-AppXPackages {
 
     Write-Host "Remove_AppXPackages Called"
@@ -72,16 +79,6 @@ New-Item -Path "C:\_BUILD\SYSPREP_Test" -ItemType Directory -Force | Out-Null
 
 $scriptName = $MyInvocation.MyCommand.Name
 Start-Transcript -Path "C:\_BUILD\SYSPREP_Test\$scriptName.buildlog" -Append
-
-#########################################
-#     Remove Old Sysprep Log Files      #
-#########################################
-if ((Test-Path "$ENV:WINDIR\System32\SysPrep\Panther\setupact.log") -eq $true) {
-    Remove-Item -Path "$ENV:WINDIR\System32\SysPrep\Panther\setupact.log" -Force
-}
-if ((Test-Path "$ENV:WINDIR\System32\SysPrep\Panther\setuperr.log") -eq $true) {
-    Remove-Item -Path "$ENV:WINDIR\System32\SysPrep\Panther\setuperr.log" -Force
-}
 
 #########################################
 #        Run DelProf2                   #
