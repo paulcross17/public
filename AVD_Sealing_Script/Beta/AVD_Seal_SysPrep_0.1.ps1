@@ -2,7 +2,6 @@
 function Clear-SysPrepLogs {
     Write-Host "Clear-SysPrepLogs Called"
 
-    # Log the start of the script
     "$(Get-Date -Format HH:mm:ss:) Clear-SysPrepLogs Called" | Out-File $logFile -Append
 
     if ((Test-Path "$ENV:WINDIR\System32\SysPrep\Panther\setupact.log") -eq $true) {
@@ -56,6 +55,7 @@ function Remove-AppXPackages {
 
     if (-not $matches) {
         Write-Host "No problematic AppX packages detected in the log." -ForegroundColor Green
+        "$(Get-Date -Format HH:mm:ss:) No problematic AppX packages detected in the log." | Out-File $logFile -Append
         return
     }
     else {
@@ -74,6 +74,7 @@ function Remove-AppXPackages {
         foreach ($app in $badApps) {
             Write-Host ""
             Write-Host "Removing: $app"
+            "$(Get-Date -Format HH:mm:ss:) Removing AppX package: $app" | Out-File $logFile -Append
             Get-AppxPackage -AllUsers -Name $app | Remove-AppxPackage -AllUsers -ErrorAction SilentlyContinue
             Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -eq $app } | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
         }
@@ -82,7 +83,7 @@ function Remove-AppXPackages {
 }
 
 function Run-DelProf2 {
-    # Log the start of the script
+
     "$(Get-Date -Format HH:mm:ss:) Run DelProf2" | Out-File $logFile -Append
     $DelProf2Path = "$ENV:WINDIR\System32\DelProf2.exe"
     $DelProf2Args = "/u"  
