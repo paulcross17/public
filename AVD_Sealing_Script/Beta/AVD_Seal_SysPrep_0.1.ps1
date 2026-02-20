@@ -13,8 +13,8 @@ function Recursive-SysPrep-AppX-Tidy {
     Write-Host "Recursive-SysPrep-AppX-Tidy Called"
     Clear-SysPrepLogs
     Run-SysPrep
-    Write-Host "Sleep for 15 seconds to allow SysPrep to start and error if problem AppX packages are present" -ForegroundColor DarkYellow
-    Start-Sleep -Seconds 15
+    Write-Host "Sleep for 5 seconds to allow SysPrep to start and error if problem AppX packages are present" -ForegroundColor DarkYellow
+    Start-Sleep -Seconds 5
     Remove-AppXPackages
 }
 function Run-SysPrep {
@@ -67,7 +67,6 @@ function Remove-AppXPackages {
             Get-AppxPackage -AllUsers -Name $app | Remove-AppxPackage -AllUsers -ErrorAction SilentlyContinue
             Get-AppxProvisionedPackage -Online | Where-Object { $_.DisplayName -eq $app } | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
         }
-
         Recursive-SysPrep-AppX-Tidy 
     }
 }
@@ -91,6 +90,6 @@ Start-Process -FilePath $DelProf2Path -ArgumentList $DelProf2Args -Wait
 #        Run SysPrep                    #
 #########################################
 
-#Recursive-SysPrep-AppX-Tidy 
+Recursive-SysPrep-AppX-Tidy 
 
 Stop-Transcript
