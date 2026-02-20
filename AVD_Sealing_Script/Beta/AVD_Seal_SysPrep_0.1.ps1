@@ -13,8 +13,8 @@ function Recursive-SysPrep-AppX-Tidy {
     Write-Host "Recursive-SysPrep-AppX-Tidy Called"
     Clear-SysPrepLogs
     Run-SysPrep
-    Write-Host "Sleep for 5 seconds to allow SysPrep to start and error if problem AppX packages are present" -ForegroundColor DarkYellow
-    Start-Sleep -Seconds 5
+    Write-Host "Sleep for 10 seconds to allow SysPrep to start and error if problem AppX packages are present" -ForegroundColor DarkYellow
+    Start-Sleep -Seconds 10
     Remove-AppXPackages
 }
 function Run-SysPrep {
